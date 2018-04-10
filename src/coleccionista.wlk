@@ -66,9 +66,39 @@
 
 // PUNTO 1: COLECCIONES
 object coleccionista {
-	
-	//TODO: Completar la implementacion de este objeto		
+var galeria = []
 
+
+	//TODO: Completar la implementacion de este objeto	
+	
+	//agrega un elemento a la galería de elementos.
+	method agregarElemento(unElemento)= galeria.add(unElemento)
+	
+	//elimina un elemento de la galería de elementos.
+	method quitarElemento(unElemento)= galeria.remove(unElemento)
+	
+	//devuelve todos los elementos de la galeria que son frágiles.
+	method objetosFragiles()=galeria.filter({elemento => elemento.esFragil()}).asSet()
+	
+	// devuelve el objeto frágil de mayor valor.
+	method objetoFragilMasCaro() = self.objetosFragiles().max({elemento => elemento.valor()})
+	
+	//devuelve la suma de los valores de todos los objetos frágiles de la galería.	
+	method valorEnObjetosFragiles()= self.objetosFragiles().sum({elemento => elemento.valor()})
+	
+	
+	// devuelve la suma de los valores de todos los objetos de la galería que pertenecen a la categoría dada.
+	method valorEnCategoria(unaCategoria)= galeria.filter({elemento => elemento.categoria()== unaCategoria}).sum({elemento=>elemento.valor()})
+	
+	//indica si en la galería existe algún elemento que pertenezca a la categoría dada.
+	method existeElementoDe(unaCategoria)= galeria.any({elemento =>elemento.categoria()== unaCategoria })
+	
+	//devuelve todas las categorías en las cuales el coleccionista posea al menos un elemento.
+	method categorias() = galeria.map({elemento => elemento.categoria()}).asSet()
+	
+	
+	//indica si la colección sólo posee elementos valiosos. Un elemento es considerado valioso para el coleccionista si el valor supera $600
+	method todosValiosos() = galeria.all({elemento => elemento.valor()>600})
 }
 
 
@@ -108,8 +138,44 @@ object musica {
 
 // PUNTO 2: POLIMORFISMO. 
 object guitarraElectrica {
+	
+var estuche = rigido
+var microfonos = []
+
    //TODO Completar la implementacion de este objeto
+   
+   //asumo que la guitarra siempre esta en un estuche
+   	method esFragil() = estuche.fragil()
+   	
+   	//En principio no tiene microfonos 
+	method valor() = 10000 + microfonos.sum({microfono => microfono.precio()})
+	
+	method categoria() = musica
+	
+	//agrega microfonos a la guitarra lo que aumenta su valor
+	method agregarMicrofono(unMicrofono)= microfonos.add(unMicrofono)
+	
+	//cambia el estuche de la guitarra lo que determina su fragilidad
+	method cambioEstuche(unEstuche){ estuche = unEstuche}
+   
 }
 
+object rigido{
+var property fragil = false	
+	
+}
+
+object flexible{
+var property fragil = true	
+	
+}
+
+object gibson{
+var property precio = 1000
+}
+
+object diMarzio {
+var property precio = 800
+}
 //TODO: agregar los objetos que falten! Si no agregaste ninguno repensá tu solución; pista: el punto se llama "POLIMORFISMO" 
 
